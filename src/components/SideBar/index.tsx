@@ -26,10 +26,10 @@ const Sidebar = () => {
       </Drawer>
     )
   }
+
   return (
     <Box as='aside' w={64} m={8}>
       <SideBarNav />
-
     </Box>
   )
 }
