@@ -4,7 +4,7 @@ import { useSidebarDrawer } from '../../contexts/SideBarDrawerContext'
 import { Logo } from './Logo'
 import { NotificationsNav } from './NotificationsNav'
 import { Profile } from './Profile'
-import { SerachBox } from './SerachBox'
+import { SearchBox } from './SearchBox'
 
 const Header = () => {
   const { onOpen } = useSidebarDrawer()
@@ -36,7 +36,7 @@ const Header = () => {
       ) }
 
       <Logo />
-      { isWideVersion && <SerachBox /> }
+      { isWideVersion && <SearchBox /> }
       <Flex
         align='center'
         ml='auto'
