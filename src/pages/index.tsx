@@ -20,7 +20,7 @@ const SignIn = () => {
   const { register, handleSubmit, formState } = useForm({
     resolver: yupResolver(signInFormSchema)
   })
-  const { errors } = formState // Pegar os erros do hookForm
+  const { errors, isSubmitting } = formState // Pegar os erros do hookForm
 
   const handleSignIn: SubmitHandler<SignInFormData> = async data => {
     await new Promise(resolve => setTimeout(resolve, 1000))
@@ -66,7 +66,7 @@ const SignIn = () => {
           mt={6} 
           colorScheme='pink'
           size='lg'
-          // isLoading={formState.isSubmitted }
+          isLoading={isSubmitting}
         >
           Entrar
         </Button>
