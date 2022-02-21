@@ -27,6 +27,8 @@ const UserList = () => {
     })
     
     return users
+  }, {
+    staleTime: 1000 * 5, // 5s
   })
 
   const isWideVersion = useBreakpointValue({
