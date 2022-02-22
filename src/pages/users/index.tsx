@@ -7,12 +7,12 @@ import { useQuery } from 'react-query'
 import { Header } from '../../components/Header'
 import Pagination from '../../components/Pagination'
 import { Sidebar } from '../../components/SideBar'
+import { api } from '../../services/api'
 
 const UserList = () => {
   const { data, isLoading, isFetching, error } = useQuery('users', async () => {
-    const response = await fetch('http://localhost:3000/api/users')
-    const data = await response.json()
-
+    const { data } = await api.get('/users')
+    
     const users = data?.users.map(user => {
       return {
         id: user.id,
@@ -30,7 +30,7 @@ const UserList = () => {
   }, {
     staleTime: 1000 * 5, // 5s para deixar os dados obsoletos
   })
-
+    
   const isWideVersion = useBreakpointValue({
     base: false,
     lg: true
