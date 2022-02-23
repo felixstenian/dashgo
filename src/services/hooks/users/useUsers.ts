@@ -43,6 +43,6 @@ export const getUsers = async (page: number): Promise<GetUsersResponse> => {
 
 export const userUsers = (page: number) => {
   return useQuery(['users', page], () => getUsers(page), {
-    staleTime: 1000 * 5, // 5s para deixar os dados obsoletos
+    staleTime: 1000 * 60 * 10, // 10 min para deixar os dados obsoletos
   })
 }
