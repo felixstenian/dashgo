@@ -9,8 +9,9 @@ import { Sidebar } from '../../components/SideBar'
 import { userUsers } from '../../services/hooks/users/useUsers'
 
 const UserList = () => {
-  const { data, isLoading, isFetching, error } = userUsers()
-  const [currentPage, setCurrentePage] = useState(5)
+  const [currentPage, setCurrentePage] = useState(1)
+
+  const { data, isLoading, isFetching, error } = userUsers(currentPage)
 
   const isWideVersion = useBreakpointValue({
     base: false,
@@ -61,7 +62,7 @@ const UserList = () => {
                 </Tr>
               </Thead>
               <Tbody>
-                { data.map(user => {
+                { data?.users?.map(user => {
                   return (
                     <Tr key={user.id}>
                       <Td px={[4, 4, 6]}>
@@ -91,9 +92,9 @@ const UserList = () => {
               </Tbody>
             </Table>
             <Pagination 
-              totalCountOfRegister={100}
+              totalCountOfRegister={data?.totalCount}
               currentPage={currentPage}
-              onPageChange={() => setCurrentePage(currentPage + 1)}
+              onPageChange={setCurrentePage}
             />
           </>
          )}
