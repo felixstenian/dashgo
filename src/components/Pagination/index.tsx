@@ -54,7 +54,7 @@ const Pagination = ({
       align='center'
     >
       <Box>
-        <strong>0</strong> - <strong>10</strong> de <strong>100</strong>
+        <strong>0</strong> - <strong>{registersPerPage}</strong> de <strong>{totalCountOfRegister}</strong>
       </Box>
       <HStack spacing={2}>
 
