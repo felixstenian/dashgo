@@ -3,10 +3,14 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Link from 'next/link'
+import { useMutation } from 'react-query' // é um hook
 
 import { Input } from '../../components/Form/Input'
 import { Header } from '../../components/Header'
 import { Sidebar } from '../../components/SideBar'
+import { api } from '../../services/api'
+import { queryClient } from '../../services/queryClient'
+import { useRouter } from 'next/router'
 
 type CreateUserFormData = {
   name: string,
@@ -27,15 +31,31 @@ const createUserFormSchema = yup.object().shape({
 })
 
 const CreateUser = () => {
+  const router = useRouter()
+
+  const createUser = useMutation(async (user: CreateUserFormData) => { // não precisa de chave como o UseQuery, pois ele não armazena nenhum cache, passamos direto a função que queremos executar nessa muattion 
+    await api.post('/users', {
+      user: {
+        ...user,
+        created_at: new Date()
+      }
+    })
+  }, { // aqui vamos adicionar a função que vai cadastrar um novo usuário
+    onSuccess: () => { // quando o cadastro for realizado com sucesso vamos invalidar o cahce que criamos anteriormente na listagem 
+      queryClient.invalidateQueries('users')
+      // utilizando os parametros para limpar o cache de listagem -> passando queryClient.invalidateQueries(['users', 1]): vai invalidar somente a primeira página da listagem de usuários
+    } 
+  }) 
+
   const { register, handleSubmit, formState } = useForm({
     resolver: yupResolver(createUserFormSchema)
   })
 
   const { errors, isSubmitting } = formState
 
-  const handleCreateUser: SubmitHandler<CreateUserFormData> = async data => {
-    await new Promise(resolver => setTimeout(resolver, 2000))
-    console.log(data)
+  const handleCreateUser: SubmitHandler<CreateUserFormData> = async values => {
+    await createUser.mutateAsync(values) // mutateAsync execulta a função useMutation de form asincrona 
+    router.push('/users')
   }
 
   return ( 
